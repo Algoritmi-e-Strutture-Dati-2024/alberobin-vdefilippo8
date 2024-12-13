@@ -1,0 +1,15 @@
+      15
+      /  \
+     10   25
+    /  \   /  \
+   5   12  20  30
+
+
+Dopo la rimozione del nodo 5 (che è una foglia), l'albero sarà:
+
+
+       15
+      /  \
+     10   25
+      \   /  \
+     12  20  30
