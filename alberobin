@@ -1,0 +1,126 @@
+#include <iostream>
+using namespace std;
+
+template <typename T>
+class AlberoBinario {
+private:
+    T nodi[100];
+
+public:
+    AlberoBinario() {
+    for (int i = 0; i < 100; i++) {
+    nodi[i] = T();
+    }
+    }
+
+    bool alberoVuoto() const {
+    return nodi[0] == T();
+    }
+
+    void insRadice(const T& valore) {
+      
+    if (alberoVuoto()) {
+    nodi[0] = valore;
+    } 
+    else {
+    cout << "La radice è già presente" << endl;
+    }
+    }
+
+    T radice() const {
+    return nodi[0];
+    }
+
+    bool isFoglia(int indice) const {
+    int sinistro = 2 * indice + 1;
+    int destro = 2 * indice + 2;
+    return (sinistro >= 100 || nodi[sinistro] == T()) &&
+    (destro >= 100 || nodi[destro] == T());
+    }
+
+    T figlioSinistro(int indice) const {
+    int sinistro = 2 * indice + 1;
+    if (sinistro < 100 && nodi[sinistro] != T()) {
+    return nodi[sinistro];
+    }
+    return T();
+    }
+
+    T figlioDestro(int indice) const {
+    int destro = 2 * indice + 2;
+    if (destro < 100 && nodi[destro] != T()) {
+    return nodi[destro];
+    }
+    return T();
+    }
+
+    void insFiglioSinistro(int indice, const T& valore) {
+    int sinistro = 2 * indice + 1;
+    if (sinistro < 100 && nodi[sinistro] == T()) {
+    nodi[sinistro] = valore;
+    } 
+    else 
+    {
+    cout << "è impossibile inserire il figlio sinistro, l'indice occupato o fuori limite" << endl;
+    }
+    }
+
+    void insFiglioDestro(int indice, const T& valore) {
+    int destro = 2 * indice + 2;
+    if (destro < 100 && nodi[destro] == T()) {
+    nodi[destro] = valore;
+    } 
+    else 
+    {
+    cout << "è impossibile inserire il figlio destro, l'indice occupato o fuori limite" << endl;
+    }
+    }
+
+    void rimuovi(int indice) {
+    if (isFoglia(indice)) {
+    nodi[indice] = T();
+    } 
+    else 
+    {
+    cout << "è impossibile rimuovere il nodo, non è una foglia" << endl;
+    }
+    }
+
+    void stampa() const {
+    for (int i = 0; i < 100; i++) {
+    if (nodi[i] != T()) {
+    int sinistro = 2 * i + 1;
+    int destro = 2 * i + 2;
+    cout << "Pos " << i << ", Valore: " << nodi[i]
+    << ", Figlio sinistro: " << (sinistro < 100 && nodi[sinistro] != T() ? nodi[sinistro] : -1)
+    << ", Figlio destro: " << (destro < 100 && nodi[destro] != T() ? nodi[destro] : -1) << endl;
+    }
+     }
+    }
+};
+
+int main() {
+  AlberoBinario<int> albero;
+  albero.insRadice(15);
+    cout << "Radice: " << albero.radice() << endl;
+  albero.insFiglioSinistro(0, 10);
+  albero.insFiglioDestro(0, 25);
+  albero.insFiglioSinistro(1, 5);
+  albero.insFiglioDestro(1, 12);
+  albero.insFiglioSinistro(2, 20);
+  albero.insFiglioDestro(2, 30);
+
+  cout << "Dopo Inserimento dei nodi, la struttura dell'albero:" << endl;
+  albero.stampa();
+
+  cout << "Figlio sinistro di 0: " << albero.figlioSinistro(0) << endl;
+  cout << "Figlio destro di 0: " << albero.figlioDestro(0) << endl;
+
+  cout << "Rimuovo il nodo 3 (foglia)" << endl;
+  albero.rimuovi(3);
+
+  cout << "Dopo la rimozione del nodo 3, la struttura dell'albero:" << endl;
+  albero.stampa();
+
+  return 0;
+}
